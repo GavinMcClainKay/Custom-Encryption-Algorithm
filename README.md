@@ -1,6 +1,6 @@
 # Custom Encryption Algorithm
 A multi-key text encryption algorithm with an example program.
-**NOT TO BE USED FOR SERIOUS SECURITY MEASURES.**
+**NOT TO BE USED FOR SERIOUS SECURITY MEASURES UNLESS YOU UNDERSTAND THE RISKS INVOLVED.**
 
 ## Encrypting Text
 ### BE SURE TO SAVE YOUR KEYS IN A SAFE LOCATION.
@@ -11,8 +11,8 @@ Include the CEA.h file to begin using this software.
 int main(void) {
   const char* input_file_location = "./input.txt";
   std::vector<uint_fast32_t> seed_packet;
-  seed_packet.push_back(99247852);
-  seed_packet.push_back(47582120);
+  seed_packet.push_back(99247852);  //SEED ONE
+  seed_packet.push_back(47582120);  //SEED TWO
   encrypt(input_file_location, seed_packet);
   return 0;
 }
@@ -25,8 +25,8 @@ int main(void) {
 int main(void) {
   const char* input_file_location = "./input.txt";
   std::vector<uint_fast32_t> seed_packet;
-  seed_packet.push_back(99247852);
-  seed_packet.push_back(47582120);
+  seed_packet.push_back(99247852);  //SEED ONE
+  seed_packet.push_back(47582120);  //SEED TWO
   decrypt(input_file_location, seed_packet);
   return 0;
 }
