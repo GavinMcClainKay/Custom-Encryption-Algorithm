@@ -5,7 +5,7 @@ A multi-key text encryption algorithm with an example program.
 ## Encrypting Text
 ### BE SURE TO SAVE YOUR KEYS IN A SAFE LOCATION.
 Include the CEA.h file to begin using this software.
->`In this case the encrypted data will be outputted to the file "./encrypted_data.txt":`
+>In this case the encrypted data will be outputted to the file "./encrypted_data.txt":
 ```c++
 #include "CEA.h"
 int main(void) {
@@ -19,7 +19,7 @@ int main(void) {
 ```
 
 ## Decrypting Text
->`The decrypt function is used exactly the same as the encrypt function:`
+>The decrypt function is used exactly the same as the encrypt function:
 ```c++
 #include "CEA.h"
 int main(void) {
@@ -33,7 +33,7 @@ int main(void) {
 ```
 
 ## How It Works
->`First, we read the input file:`
+>First, we read the input file:
 ```c++
 std::vector<char> getTextData(const char* file_location) {
     std::ifstream File(file_location);
@@ -48,7 +48,7 @@ std::vector<char> getTextData(const char* file_location) {
     return full_file;
 }
 ```
->`Then, we generate a random number for each character in the input. We seed this with SEED/KEY ONE:`
+>Then, we generate a random number for each character in the input. We seed this with SEED/KEY ONE:
 ```c++
 std::vector<int> generateSeeds(int seed, int number_of_seeds) {
     std::random_device rd;
@@ -62,7 +62,7 @@ std::vector<int> generateSeeds(int seed, int number_of_seeds) {
     return output_vector;
 }
 ```
->`Next, we generate a random alphabet from each random number:`
+>Next, we generate a random alphabet from each random number:
 ```c++
 std::vector<char> generateRandomAlphabet(int seed) {
     std::uniform_int_distribution<> dist(33, 127); //uniform distribution of all characters on the keyboard
@@ -89,7 +89,7 @@ std::vector<char> generateRandomAlphabet(int seed) {
     return randomAlphabet;
 }
 ```
->`After that, we replace each character in our input file with one at the same index in each character's respective random alphabet:`
+>After that, we replace each character in our input file with one at the same index in each character's respective random alphabet:
 ```c++
 for(char c : input_data) {
     replacement_character = random_alphabets.at(current_alphabet).at((int)c - 32);  //random_alphabet -> current_alphabet -> c-32
@@ -97,7 +97,7 @@ for(char c : input_data) {
     current_alphabet++;
 }
 ```
->`Finally, we shift each character a random amount using a similar process:`
+>Finally, we shift each character a random amount using a similar process:
 ```c++
 index = 0; 
 SEED_ONE.seed(seed_packet.at(0));
