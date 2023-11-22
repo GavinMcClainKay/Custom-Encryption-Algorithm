@@ -33,7 +33,7 @@ int main(void) {
 ```
 
 ## How It Works
->`First, we read the input file.`
+>`First, we read the input file:`
 ```c++
 std::vector<char> getTextData(const char* file_location) {
     std::ifstream File(file_location);
@@ -48,7 +48,7 @@ std::vector<char> getTextData(const char* file_location) {
     return full_file;
 }
 ```
->`Then we generate a random number for each character in the input. We seed this with SEED/KEY ONE.`
+>`Then, we generate a random number for each character in the input. We seed this with SEED/KEY ONE:`
 ```c++
 std::vector<int> generateSeeds(int seed, int number_of_seeds) {
     std::random_device rd;
@@ -62,3 +62,54 @@ std::vector<int> generateSeeds(int seed, int number_of_seeds) {
     return output_vector;
 }
 ```
+>`Next, we generate a random alphabet from each random number:`
+```c++
+std::vector<char> generateRandomAlphabet(int seed) {
+    std::uniform_int_distribution<> dist(33, 127); //uniform distribution of all characters on the keyboard
+    std::unordered_map<char, bool> map_found; 
+    std::vector<char> randomAlphabet;
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    int number_found_characters; 
+    char generated_char;
+
+    gen.seed(seed);
+    number_found_characters = 0; 
+    while(number_found_characters < 95) {
+        generated_char = dist(gen);
+        if(map_found[generated_char]) continue;
+        else {
+            randomAlphabet.push_back(generated_char); 
+            map_found[generated_char] = true;
+            number_found_characters++;
+        }
+    }
+
+    return randomAlphabet;
+}
+```
+>`After that, we replace each character in our input file with one at the same index in each character's respective random alphabet:`
+```c++
+for(char c : input_data) {
+    replacement_character = random_alphabets.at(current_alphabet).at((int)c - 32);  //random_alphabet -> current_alphabet -> c-32
+    encrypted_data.push_back(replacement_character);
+    current_alphabet++;
+}
+```
+>`Finally, we shift each character a random amount using a similar process:`
+```c++
+index = 0; 
+SEED_ONE.seed(seed_packet.at(0));
+for(char c : encrypted_data) {
+    current_seed = SEED_ONE() % 1000;
+    if(current_seed % 2 == 0) {
+        encrypted_data.at(index) += current_seed;
+    }
+    else {
+        encrypted_data.at(index) -= current_seed;
+    }
+    index++;
+}
+```
+Decryption follows the same steps backwards.
