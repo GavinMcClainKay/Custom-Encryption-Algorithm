@@ -1,6 +1,7 @@
 # Custom Encryption Algorithm
 A multi-key text encryption algorithm with an example program.
 
+
 ## Encrypting Text
 ### BE SURE TO SAVE YOUR KEYS IN A SAFE LOCATION.
 Include the CEA.h file to begin using this software.
@@ -31,11 +32,31 @@ int main(void) {
 }
 ```
 
-## Information Regarding Encryption Generation
-This program uses the standard template library `mersenne_twister_engine` to generate random `alphabets`.
-Each `character` has it's own unique `alphabet`, where the `value` of the original `character` corresponds to the `index` of the `random_character` in the generated `alphabet`.
-This is easily reversable with the `seed` used to originally generate the `alphabets`.
-This represents a `substitution`.
-A second `seed` is then used to generate a `random_number` for each `character` in the already randomized data.
-Each `random_number` is then cut off at the thousands place, and is added or subtracted to the data `character` by `character`. 
-This represents a `shift`. 
+## How It Works
+>'First, we read the input file. Then we generate a random number for each character in the input. We seed this with SEED/KEY ONE.'
+'''c++
+std::vector<char> getTextData(const char* file_location) {
+    std::ifstream File(file_location);
+    std::vector<char> full_file;
+
+    char c = ' ';
+
+    while(File.get(c)) {
+        full_file.push_back(c);
+    }
+    File.close();
+    return full_file;
+}
+
+std::vector<int> generateSeeds(int seed, int number_of_seeds) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::vector<int> output_vector;
+    
+    gen.seed(seed);
+    for(int s = 0; s < number_of_seeds; s++) {
+        output_vector.push_back(gen());
+    }
+    return output_vector;
+}
+'''
