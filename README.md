@@ -112,4 +112,53 @@ for(char c : encrypted_data) {
     index++;
 }
 ```
-Decryption follows the same steps backwards.
+>Decryption follows the same steps backwards.
+```c++
+void decrypt(const char* file_location, std::vector<int> seed_packet) {
+    std::random_device rd;
+    std::mt19937 SEED_ONE(rd());
+
+    std::vector<std::vector<char>> random_alphabets;
+    std::unordered_map<char, int> char_map;
+    std::vector<char> unencrypted_data;
+    std::vector<char> data;
+    std::ofstream ofstream;
+    int current_seed;
+
+    int current_char_count;
+    int current_alphabet;
+    int index;
+
+    //Unshift characters a random amount.
+    index = 0; 
+    data = getTextData(file_location);
+    SEED_ONE.seed(seed_packet.at(0));
+    for(char c : data) {
+        current_seed = SEED_ONE() % 1000;
+        if(current_seed % 2 == 0) {
+            data.at(index) -= current_seed;
+        }
+        else {
+            data.at(index) += current_seed;
+        }
+        index++;
+    }
+
+    //Unrandomize characters.
+    current_alphabet = 0;
+    random_alphabets = generateAlphabets(seed_packet.at(1), data.size()); 
+    for(char c : data) {
+        index = indexOf(random_alphabets.at(current_alphabet), c);
+        index += 32;
+        unencrypted_data.push_back((char)index);
+        current_alphabet++;
+    }
+
+    //Save to output file.
+    ofstream.open("./unencrypted_data.txt");
+    for(char c : unencrypted_data) {
+        ofstream.put(c);
+    }
+    ofstream.close(); 
+}
+```
