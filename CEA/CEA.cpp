@@ -23,7 +23,7 @@ std::vector<char> getTextData(const char* file_location) {
     return full_file;
 }
 
-std::vector<char> generateRandomAlphabet(uint_fast32_t seed) {
+std::vector<char> generateRandomAlphabet(int seed) {
     std::uniform_int_distribution<> dist(33, 127); //uniform distribution of all characters on the keyboard
     std::unordered_map<char, bool> map_found; 
     std::vector<char> randomAlphabet;
@@ -48,10 +48,10 @@ std::vector<char> generateRandomAlphabet(uint_fast32_t seed) {
     return randomAlphabet;
 }
 
-std::vector<uint_fast32_t> generateSeeds(uint_fast32_t seed, int number_of_seeds) {
+std::vector<int> generateSeeds(int seed, int number_of_seeds) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::vector<uint_fast32_t> output_vector;
+    std::vector<int> output_vector;
     
     gen.seed(seed);
     for(int s = 0; s < number_of_seeds; s++) {
@@ -60,9 +60,9 @@ std::vector<uint_fast32_t> generateSeeds(uint_fast32_t seed, int number_of_seeds
     return output_vector;
 }
 
-std::vector<std::vector<char>> generateAlphabets(uint_fast32_t seed, int num_alphabets) {
+std::vector<std::vector<char>> generateAlphabets(int seed, int num_alphabets) {
     std::vector<std::vector<char>> alphabets;
-    std::vector<uint_fast32_t> seeds;
+    std::vector<int> seeds;
     
     seeds = generateSeeds(seed, num_alphabets);
     for(int i = 0; i < num_alphabets; i++) {
@@ -71,7 +71,7 @@ std::vector<std::vector<char>> generateAlphabets(uint_fast32_t seed, int num_alp
     return alphabets;
 }
 
-void encrypt(const char* file_location, std::vector<uint_fast32_t> seed_packet) {
+void encrypt(const char* file_location, std::vector<int> seed_packet) {
     std::random_device rd;
     std::mt19937 SEED_ONE(rd());
 
@@ -85,7 +85,7 @@ void encrypt(const char* file_location, std::vector<uint_fast32_t> seed_packet) 
     int current_char_count;
     int current_alphabet;
     int index; 
-    uint_fast32_t current_seed;
+    int current_seed;
 
     //Replace characters in input file with random characters.
     current_alphabet = 0;
@@ -114,12 +114,13 @@ void encrypt(const char* file_location, std::vector<uint_fast32_t> seed_packet) 
     //Save to output file.
     ofstream.open("./encrypted_data.txt");
     for(char c : encrypted_data) {
+        printf("%c", c);
         ofstream.put(c);
     }
     ofstream.close();
 }
 
-void decrypt(const char* file_location, std::vector<uint_fast32_t> seed_packet) {
+void decrypt(const char* file_location, std::vector<int> seed_packet) {
     std::random_device rd;
     std::mt19937 SEED_ONE(rd());
 
@@ -128,7 +129,7 @@ void decrypt(const char* file_location, std::vector<uint_fast32_t> seed_packet) 
     std::vector<char> unencrypted_data;
     std::vector<char> data;
     std::ofstream ofstream;
-    uint_fast32_t current_seed;
+    int current_seed;
 
     int current_char_count;
     int current_alphabet;
@@ -166,3 +167,17 @@ void decrypt(const char* file_location, std::vector<uint_fast32_t> seed_packet) 
     }
     ofstream.close(); 
 }
+
+//example use
+// int main(void) {
+//     const char* inputfile_location = "./example_input.txt";
+//     std::vector<int> seed_packet = std::vector<int>();
+//     seed_packet.push_back(115091215); //seed one
+//     seed_packet.push_back(257881923); //seed two
+//     encrypt(inputfile_location, seed_packet);
+
+//     const char* encrypted_input = "./encrypted_data.txt";
+//     //USE SAME SEEDS TO DECRYPT TEXT
+//     decrypt(encrypted_input, seed_packet);
+//     return 0;
+// }

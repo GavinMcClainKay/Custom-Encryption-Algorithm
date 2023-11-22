@@ -5,15 +5,15 @@
 int main(void) {
     int input = 0; 
     char* file_location = (char*) malloc(sizeof(char) * 256);
-    std::vector<uint_fast32_t> seed_packet;
-    uint_fast32_t temp = 0; 
+    std::vector<int> seed_packet;
+    int temp = 0; 
     //check for valid input
     while(true) {
         std::cout << "Would you like to encrypt(1) or decrypt(2) a text file? \n Please select a number 1 or 2.\n";
         std::cin >> input; 
         
         if(input < 1 || input > 2) continue;
-        std::cout << "Please input the file location:\n";
+        std::cout << "Please enter an input file location:\n";
         std::cin >> file_location;
 
         std::cout << "Please enter the first key:\n";
