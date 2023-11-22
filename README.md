@@ -1,6 +1,5 @@
 # Custom Encryption Algorithm
 A multi-key text encryption algorithm with an example program.
-**NOT TO BE USED FOR SERIOUS SECURITY MEASURES UNLESS YOU UNDERSTAND THE RISKS INVOLVED.**
 
 ## Encrypting Text
 ### BE SURE TO SAVE YOUR KEYS IN A SAFE LOCATION.
