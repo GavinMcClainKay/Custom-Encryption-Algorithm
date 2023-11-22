@@ -33,7 +33,7 @@ int main(void) {
 ```
 
 ## How It Works
->`First, we read the input file. Then we generate a random number for each character in the input. We seed this with SEED/KEY ONE.`
+>`First, we read the input file.`
 ```c++
 std::vector<char> getTextData(const char* file_location) {
     std::ifstream File(file_location);
@@ -47,7 +47,9 @@ std::vector<char> getTextData(const char* file_location) {
     File.close();
     return full_file;
 }
-
+```
+>`Then we generate a random number for each character in the input. We seed this with SEED/KEY ONE.`
+```c++
 std::vector<int> generateSeeds(int seed, int number_of_seeds) {
     std::random_device rd;
     std::mt19937 gen(rd());
